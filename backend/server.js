@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import cors from "cors";
 import { connectDB } from "./config/db.js";
 import productRoutes from "./routes/product.route.js";
+import cookieParser from "cookie-parser";
+import authRoutes from "./routes/auth.route.js";
 
 dotenv.config();
 
@@ -32,3 +34,6 @@ app.listen(PORT, () => {
 app.get("/api/test", (req, res) => {
   res.json({ message: "Test route works" });
 });
+
+app.use(cookieParser());
+app.use("/api/auth", authRoutes);
