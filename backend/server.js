@@ -28,3 +28,7 @@ app.listen(PORT, () => {
   connectDB();
   console.log("Server started at http://localhost:" + PORT);
 });
+
+app.get("/api/test", (req, res) => {
+  res.json({ message: "Test route works" });
+});
