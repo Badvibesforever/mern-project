@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 import { connectDB } from "./config/db.js";
-
 import productRoutes from "./routes/product.route.js";
 
 dotenv.config();
@@ -9,7 +9,18 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(express.json()); // Middleware to parse JSON bodies
+const allowedOrigins = [
+  "https://frontend-mern-project-5kdx1zc8h-jesses-projects-61296501.vercel.app",
+];
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+);
+
+app.use(express.json());
 
 app.use("/api/products", productRoutes);
 
