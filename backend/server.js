@@ -1,9 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import cookieParser from "cookie-parser";
+
 import { connectDB } from "./config/db.js";
 import productRoutes from "./routes/product.route.js";
-import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.route.js";
 
 dotenv.config();
@@ -23,17 +24,16 @@ app.use(
 );
 
 app.use(express.json());
+app.use(cookieParser());
 
+app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
-
-app.listen(PORT, () => {
-  connectDB();
-  console.log("Server started at http://localhost:" + PORT);
-});
 
 app.get("/api/test", (req, res) => {
   res.json({ message: "Test route works" });
 });
 
-app.use(cookieParser());
-app.use("/api/auth", authRoutes);
+app.listen(PORT, () => {
+  connectDB();
+  console.log("Server started at http://localhost:" + PORT);
+});
