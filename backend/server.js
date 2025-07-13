@@ -12,14 +12,30 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const allowedOrigins = [
-  "https://frontend-mern-project-mpbi7438d-jesses-projects-61296501.vercel.app",
-  "https://frontend-mern-project-f0duhu6ve-jesses-projects-61296501.vercel.app",
-];
+app.set("trust proxy", 1);
 
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+
+      try {
+        const hostname = new URL(origin).hostname;
+
+        const isAllowed =
+          hostname === "localhost" ||
+          hostname.endsWith(".vercel.app") ||
+          hostname.includes("jesses-projects-61296501.vercel.app");
+
+        if (isAllowed) {
+          return callback(null, true);
+        }
+
+        callback(new Error("CORS: Origin not allowed → " + origin));
+      } catch (err) {
+        callback(err);
+      }
+    },
     credentials: true,
   })
 );
@@ -36,5 +52,5 @@ app.get("/api/test", (req, res) => {
 
 app.listen(PORT, () => {
   connectDB();
-  console.log("Server started at http://localhost:" + PORT);
+  console.log("🚀 Server started at http://localhost:" + PORT);
 });
