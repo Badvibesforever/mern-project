@@ -13,7 +13,8 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 const allowedOrigins = [
-  "https://frontend-mern-project-5kdx1zc8h-jesses-projects-61296501.vercel.app",
+  "https://frontend-mern-project-mpbi7438d-jesses-projects-61296501.vercel.app",
+  "https://frontend-mern-project-f0duhu6ve-jesses-projects-61296501.vercel.app",
 ];
 
 app.use(
